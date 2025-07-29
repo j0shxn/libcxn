@@ -1,69 +1,38 @@
-# WizTLE: Multi-Satellite Scheduling and Tracking API
+# libcxn 
 
-WizTLE is a tool for tracking satellite positions, particularly
-built for LEO ground stations. It is the consists of a library, rest api and
-server software. Making it suitable for a variety of purposes.
+Various utilities for mathematical and scientific computing.
 
-## Installation
+**License:** GPLv3
 
-### General Linux
+**Author:** Buğra Coşkun
+https://github.com/j0shxn
 
-```bash
-./autoinstaller.sh
-```
+**Disclaimer**
+This library is provided as-is, without warranty. Use at your own risk. Not all
+functions are guaranteed to be production-grade; review code before deployment
+in critical systems.
 
-## Components
+## Usage
 
-### wiztle-restapi
+Import and use any module or function as needed. For example:
 
-As a RESTful API it provides two endpoints **get_schedule** and **get_ptm**.
+    from libcxn.math.symbolic import symbolic
 
-#### Usage
+    k = [1, 0, 0]
+    ang = 3.1415 / 2
+    R = symbolic.rodri(k, ang)
+    print(R)
 
-```bash
-wiztle-restapi --port <PORTNUM>
-```
+All modules and functions are documented—see the API documentation section below.
 
+## Project Structure
 
-### wiztle-server
+libcxn/
+  math/
+    numeric/
+      numeric.py
+    symbolic/
+      symbolic.py
 
-Compared to the RESTful API this server software keeps most of the calculations
-in memory so as to not repeat them, therefore the computational efficiency is a
-lot better and it provides more endpoints for sophisticated use cases. But
-currently it only supports a single request origin as it can not differentiate
-between different connections.
-
-## Troubleshooting
-
-### Modifications to the source code are not applied
-
-Modifications to the source code require the program to be uninstalled and
-reinstalled using pip. Sometimes even after doing this some changes might not
-be reflected in the program, in such cases it is best to clear the python
-virtual environment and reconstruct it.
-
-```bash
-rm -r venv/
-python -m venv venv
-```
-
-### pip doesn't work / externally managed system
-
-In some linux distros system-wide pip installations are restricted by the
-package manager. In such systems it is best to use a python virtual environment
-
-```bash
-python -m venv venv
-```
-
-### A certain python dependency can't be found
-
-Remove the dependency entry from `requirements.txt` and install it
-manually.
-
-### Can't reach wiztle from outside the server
-
-1. Make sure the chosen port is not closed/restricted.
-2. Make sure the host ip in `__main__.py` files is `0.0.0.0` instead of 
-`127.0.0.1`.
+    Add new modules to the appropriate subpackage as your codebase grows.
 
