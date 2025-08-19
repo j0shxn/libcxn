@@ -1,11 +1,34 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2025 Bugra Coskun
 # License: GPLv3
-"""
-[ libcxn.math.numeric ]
-"""
-
+# [ libcxn.math.numeric ]
 import numpy as np
+
+class Gaussian2DIsotropic:
+    """
+    2D isotropic Gaussian with peak value 1 at the mean.
+    
+    f(x, y) = exp(-((x - mu_x)^2 + (y - mu_y)^2) / (2*sigma^2))
+    
+    Parameters
+    ----------
+    mu : tuple of float
+        (mu_x, mu_y) center of the Gaussian.
+    sigma : float
+        Standard deviation (spread) in both directions.
+    """
+    def __init__(self, mu=(0.0, 0.0), sigma=1.0):
+        if sigma <= 0:
+            raise ValueError("sigma must be positive.")
+        self.mu_x, self.mu_y = mu
+        self.sigma = float(sigma)
+        self.inv_two_sigma2 = 1.0 / (2.0 * self.sigma**2)
+
+    def __call__(self, x: float, y: float) -> float:
+        dx = x - self.mu_x
+        dy = y - self.mu_y
+        r2 = dx*dx + dy*dy
+        return np.exp(- r2 * self.inv_two_sigma2)
 
 def auto_align(A:np.ndarray, B:np.ndarray, max_lag:int=200):
     """

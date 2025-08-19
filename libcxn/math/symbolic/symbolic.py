@@ -1,7 +1,32 @@
 import sympy as sp
 from typing import Sequence, Union
 
-def rodri(k: Sequence[Union[float, sp.Basic]],
+class PrettyPrint:
+    """Callable expressive and pretty printing class"""
+    def __init__(self, is_active:bool=True):
+        self.is_active = is_active
+
+    def __call__(self, symvarname:str, symvar, desc:str=""):
+        """
+        Pretty-print a sympy variable with its name and type.
+
+        Parameters
+        ----------
+        symvarname : str
+            The name of the variable (for display).
+        symvar : any
+            The sympy object to pretty-print.
+        desc : str
+            Descriptor string.
+        """
+        if self.is_active:
+            print("\n"+"-"*70)
+            print(f"{symvarname}::{type(symvar)}")
+            if desc !="": print(f"description:{desc}")
+            sp.pprint(symvar)
+            print("\n"+"-"*70)
+
+def rodri(k:sp.Matrix,
           ang: Union[float, sp.Basic]) -> sp.Matrix:
     """
     Compute the Rodrigues rotation matrix for a given axis and angle.
@@ -77,7 +102,7 @@ def spherical_to_cartesian(vec):
     Parameters
     ---
     vec : sympy.Matrix or sequence
-        [azimuth (rad), elevation (rad), radius]
+        [azimuthal (rad), elevation (rad), radius]
 
     Returns
     ---
@@ -90,17 +115,3 @@ def spherical_to_cartesian(vec):
         vec[2]*sp.sin(vec[1])])
     return cart
 
-def pp(symvarname:str, symvar):
-    """
-    Pretty-print a sympy variable with its name and type.
-
-    Parameters
-    ----------
-    symvarname : str
-        The name of the variable (for display).
-    symvar : any
-        The sympy object to pretty-print.
-    """
-    print("-"*70)
-    print(f"\n{symvarname}::{type(symvar)}")
-    sp.pprint(symvar)
